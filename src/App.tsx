@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useAccount } from 'wagmi';
 import {
   useEthereumData,
   useCryptoPrices,
@@ -7,6 +8,8 @@ import {
   useEthPrice,
   formatNumber,
 } from './hooks/useRealTimeData';
+import { ConnectWallet } from './components/ConnectWallet';
+import { WalletDashboard } from './components/WalletDashboard';
 
 // ============================================
 // SVG ICONS
@@ -254,7 +257,7 @@ function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center gap-4">
-            <button className="btn-secondary px-4 py-2 rounded-lg text-sm text-emerald-400">Connect Wallet</button>
+            <ConnectWallet />
             <button className="btn-primary px-4 py-2 rounded-lg text-sm text-white font-medium">Launch App</button>
           </div>
 
@@ -273,7 +276,7 @@ function Navbar() {
             <a href="#tokenomics" className="block text-sm text-gray-400 hover:text-emerald-400 py-2" onClick={() => setMobileOpen(false)}>Tokenomics</a>
             <a href="#faq" className="block text-sm text-gray-400 hover:text-emerald-400 py-2" onClick={() => setMobileOpen(false)}>FAQ</a>
             <div className="pt-3 flex gap-3">
-              <button className="btn-secondary px-4 py-2 rounded-lg text-sm text-emerald-400 flex-1">Connect Wallet</button>
+              <ConnectWallet />
               <button className="btn-primary px-4 py-2 rounded-lg text-sm text-white font-medium flex-1">Launch App</button>
             </div>
           </div>
@@ -414,6 +417,11 @@ function Hero() {
             </div>
           </div>
         )}
+
+        {/* Wallet Dashboard - Shows when connected */}
+        <div className="max-w-md mx-auto mt-8">
+          <WalletDashboard />
+        </div>
       </div>
     </section>
   );

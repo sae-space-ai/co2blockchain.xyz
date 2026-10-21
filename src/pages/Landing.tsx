@@ -11,6 +11,7 @@ import {
 } from '../hooks/useRealTimeData';
 import { ConnectWallet } from '../components/ConnectWallet';
 import { WalletDashboard } from '../components/WalletDashboard';
+import { LiveDataSection } from '../components/LiveDataSection';
 
 // SVG Icons
 function LeafIcon({ className = "w-6 h-6" }: { className?: string }) {
@@ -632,6 +633,7 @@ export default function Landing() {
       <Navbar />
       <PriceTicker />
       <Hero />
+      <LiveDataSection />
       <Features />
       <HowItWorks />
       <FAQ />

@@ -1,4 +1,4 @@
-# Puertas de aceptación · RC7 STAGE · 2026-11-19
+# Puertas de aceptación · RC7.1 STAGE · 2026-11-19
 
 | Gate | Exigencia | Estado al crear el paquete |
 |---|---|---|
@@ -15,3 +15,7 @@
 | PRODUCCIÓN | Necesita G1–G9 completos | **PROHIBIDA** |
 
 No confundir un test del paquete de bytes, un test con servidor simulado o un resultado de `go test` con pruebas reales PostgreSQL autenticadas. No hay anclaje blockchain distribuido ni certificación de créditos.
+
+## Actualización RC7.1 — 19/11/2026
+
+La batería de endurecimiento de TLS, JSON, IPv6, HTTP 413 y ZIP está comprobada con Go; no cambia la condición de G3–G9, que siguen sin completarse. Un proyecto PostgreSQL de prueba NO se creó: el proveedor Neon devolvió una restricción de organización gestionada por Vercel. No se ha usado ninguna base existente ni alterado recursos de Cloudflare/Vercel.

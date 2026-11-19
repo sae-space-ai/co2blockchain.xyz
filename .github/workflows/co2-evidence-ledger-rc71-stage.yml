@@ -1,0 +1,37 @@
+name: CO2 Evidence Ledger RC7.1 / isolated checks
+on:
+  pull_request:
+    paths: ['enterprise/**']
+  push:
+    branches: ['feat/co2-evidence-ledger-enterprise-rc7-stage']
+    paths: ['enterprise/**']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  unit-and-artifact:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: enterprise
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: enterprise/go.mod
+          cache-dependency-path: enterprise/go.mod
+      - name: Go unit tests
+        run: go test -count=1 ./...
+      - name: Race detector
+        run: go test -race -count=1 ./...
+      - name: Vet and build
+        run: |
+          go vet ./...
+          go build ./cmd/server ./cmd/bootstrap ./cmd/verify-package
+      - name: Browser script syntax only
+        run: node --check web/app.js
+      - name: Self-contained synthetic ZIP round trip
+        run: |
+          mkdir -p tests
+          go run ./cmd/create-fixture tests/ci-fixture.zip
+          go run ./cmd/verify-package tests/ci-fixture.zip

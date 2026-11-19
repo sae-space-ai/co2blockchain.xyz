@@ -47,6 +47,6 @@ func main() {
 		log.Fatal("nonlocal listen forbidden without explicit stage flag")
 	}
 	srv := &http.Server{Addr: *listen, Handler: httpapi.New(database, origin).Router(), ReadHeaderTimeout: 8 * time.Second, ReadTimeout: 20 * time.Second, WriteTimeout: 35 * time.Second, IdleTimeout: 40 * time.Second, MaxHeaderBytes: 16384}
-	log.Printf("CO2 Evidence Ledger RC7 STAGE listening on %s; check /api/ready for actual storage", *listen)
+	log.Printf("CO2 Evidence Ledger RC7.1 STAGE listening on %s; check /api/ready for actual storage", *listen)
 	log.Fatal(srv.ListenAndServe())
 }

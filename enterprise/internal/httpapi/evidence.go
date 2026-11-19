@@ -34,8 +34,11 @@ func filename(name string) string {
 	return name
 }
 func acceptContent(name string, b []byte) (string, error) {
-	if len(b) == 0 || len(b) > maxEvidence {
-		return "", fmt.Errorf("%w: file must be between 1 byte and 3 MiB", errInvalid)
+	if len(b) > maxEvidence {
+		return "", fmt.Errorf("%w: file exceeds 3 MiB", errTooLarge)
+	}
+	if len(b) == 0 {
+		return "", fmt.Errorf("%w: empty file", errInvalid)
 	}
 	ext := strings.ToLower(filepath.Ext(name))
 	detected := http.DetectContentType(b)
@@ -131,6 +134,20 @@ func (s *Server) uploadEvidence(w http.ResponseWriter, r *http.Request, c *pg.Co
 	}
 	if len(status) != 1 || status[0].Str("status") != "DRAFT" {
 		return errConflict
+	}
+	counts, e := c.Query(r.Context(), "SELECT count(*)::text AS n FROM claim_evidence WHERE claim_id=$1", cl.ID)
+	if e != nil {
+		return e
+	}
+	if len(counts) != 1 {
+		return errConflict
+	}
+	n, e := strconv.Atoi(counts[0].Str("n"))
+	if e != nil {
+		return e
+	}
+	if n >= pack.MaxEvidenceFiles {
+		return fmt.Errorf("%w: limit of %d documents per claim", errConflict, pack.MaxEvidenceFiles)
 	}
 	if e := c.Exec(r.Context(), "INSERT INTO evidence(id,org_id,project_id,uploaded_by,name,mime,size_bytes,sha256,content) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)", id, cl.Org, cl.Project, u.UserID, original, mimeType, len(data), sha, data); e != nil {
 		return e

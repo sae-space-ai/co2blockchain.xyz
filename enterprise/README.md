@@ -1,4 +1,7 @@
-# CO2 Evidence Ledger — RC7 Enterprise STAGE
+# CO2 Evidence Ledger — RC7.1 Enterprise STAGE
+
+**Seguridad incremental.** RC7.1 añade comprobación estricta de TLS remoto, límites de archivos y ZIP, rechazo de solicitudes de origen inadecuado y pruebas adversarias. Véase `docs/SECURITY_DELTA_RC7_1.md` y el informe `docs/QA_RC7_1_2026-11-19.md`. No modificar ni desplegar `main`.
+
 
 **NO PRODUCCIÓN.** Fuente empresarial Go + PostgreSQL; React/TypeScript definitivo y pruebas E2E contra servidor auténtico pendientes.
 

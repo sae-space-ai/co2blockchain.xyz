@@ -1,0 +1,66 @@
+[
+  {
+    "method": "GET",
+    "route": "/api/health",
+    "status": 200,
+    "expected": 200,
+    "pass": true,
+    "sample": "{\"databaseReady\":false,\"meaning\":\"process liveness only; check /api/ready for persistence\",\"process\":\"running\",\"service\":\"co2-evidence-ledger\",\"stage\""
+  },
+  {
+    "method": "GET",
+    "route": "/api/ready",
+    "status": 503,
+    "expected": 503,
+    "pass": true,
+    "sample": "{\"ready\":false,\"reason\":\"database unavailable\"}\n"
+  },
+  {
+    "method": "GET",
+    "route": "/index.html",
+    "status": 200,
+    "expected": 200,
+    "pass": true,
+    "sample": "<!doctype html><html lang=\"es\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>CO₂ Evidence Led"
+  },
+  {
+    "method": "GET",
+    "route": "/style.css",
+    "status": 200,
+    "expected": 200,
+    "pass": true,
+    "sample": ":root{color-scheme:light;--sky:#d6edf6;--pistachio:#d9eab2;--olive:#63724a;--ink:#223338;--muted:#50646b;--border:#cbdce0;--surface:#fff;--background:"
+  },
+  {
+    "method": "POST",
+    "route": "/api/v1/organizations",
+    "status": 503,
+    "expected": 503,
+    "pass": true,
+    "sample": "{\"error\":\"database unavailable\"}\n"
+  },
+  {
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "status": 403,
+    "expected": 403,
+    "pass": true,
+    "sample": "{\"error\":\"origin rejected\"}\n"
+  },
+  {
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "status": 403,
+    "expected": 403,
+    "pass": true,
+    "sample": "{\"error\":\"origin rejected\"}\n"
+  },
+  {
+    "method": "POST",
+    "route": "/api/v1/auth/login",
+    "status": 400,
+    "expected": 400,
+    "pass": true,
+    "sample": "{\"error\":\"invalid input: application/json required\"}\n"
+  }
+]

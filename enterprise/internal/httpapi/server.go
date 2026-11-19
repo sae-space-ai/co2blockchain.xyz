@@ -8,6 +8,8 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"mime"
+	"net"
 	"net/http"
 	"net/url"
 	"strings"
@@ -22,6 +24,7 @@ var errForbidden = errors.New("forbidden")
 var errNotFound = errors.New("not found")
 var errInvalid = errors.New("invalid input")
 var errConflict = errors.New("conflict")
+var errTooLarge = errors.New("payload too large")
 
 type Server struct {
 	DB            pg.Client
@@ -94,13 +97,23 @@ func fail(w http.ResponseWriter, e error) {
 	case errors.Is(e, errConflict):
 		code = 409
 		message = "conflict"
+	case errors.Is(e, errTooLarge):
+		code = http.StatusRequestEntityTooLarge
+		message = "payload exceeds permitted size"
 	default:
-		log.Printf("co2-stage request failed: %T", e)
+		var maxErr *http.MaxBytesError
+		if errors.As(e, &maxErr) {
+			code = http.StatusRequestEntityTooLarge
+			message = "payload exceeds permitted size"
+		} else {
+			log.Printf("co2-stage request failed: %T", e)
+		}
 	}
 	respond(w, code, map[string]string{"error": message})
 }
 func readJSON(r *http.Request, out any) error {
-	if !strings.HasPrefix(r.Header.Get("Content-Type"), "application/json") {
+	mediaType, _, mediaErr := mime.ParseMediaType(r.Header.Get("Content-Type"))
+	if mediaErr != nil || mediaType != "application/json" {
 		return fmt.Errorf("%w: application/json required", errInvalid)
 	}
 	dec := json.NewDecoder(io.LimitReader(r.Body, 32*1024+1))
@@ -136,7 +149,7 @@ func (s *Server) db(ctx context.Context) (*pg.Conn, error) {
 	return s.DB.Connect(ctx)
 }
 func (s *Server) health(w http.ResponseWriter, r *http.Request) {
-	respond(w, 200, map[string]any{"service": "co2-evidence-ledger", "stage": "RC7", "process": "running", "databaseReady": false, "meaning": "process liveness only; check /api/ready for persistence"})
+	respond(w, 200, map[string]any{"service": "co2-evidence-ledger", "stage": "RC7.1", "process": "running", "databaseReady": false, "meaning": "process liveness only; check /api/ready for persistence"})
 }
 func (s *Server) ready(w http.ResponseWriter, r *http.Request) {
 	c, e := s.db(r.Context())
@@ -158,7 +171,9 @@ func (s *Server) secureCookie(r *http.Request) bool {
 func (s *Server) originOK(r *http.Request) bool {
 	origin := r.Header.Get("Origin")
 	if origin == "" {
-		return true
+		// A Fetch Metadata cross-site request remains forbidden even if Origin
+		// was removed by a proxy or browser extension.
+		return !strings.EqualFold(r.Header.Get("Sec-Fetch-Site"), "cross-site")
 	}
 	u, e := url.Parse(origin)
 	if e != nil || u.Host == "" {
@@ -212,10 +227,39 @@ func (s *Server) withAuth(handler func(http.ResponseWriter, *http.Request, *pg.C
 		}
 	}
 }
+func clientIP(remote string) string {
+	host, _, err := net.SplitHostPort(remote)
+	if err != nil {
+		return "unknown" // Fail closed on malformed addresses.
+	}
+	ip := net.ParseIP(host)
+	if ip == nil {
+		return "unknown"
+	}
+	return ip.String()
+}
 func (s *Server) allowLogin(ip string) bool {
 	s.limitsMu.Lock()
 	defer s.limitsMu.Unlock()
 	now := time.Now()
+	// Bound in-process rate limiter memory; never take client-supplied X-Forwarded-For.
+	if len(s.loginAttempts) >= 4096 {
+		for key, timestamps := range s.loginAttempts {
+			active := false
+			for _, ts := range timestamps {
+				if now.Sub(ts) < 10*time.Minute {
+					active = true
+					break
+				}
+			}
+			if !active {
+				delete(s.loginAttempts, key)
+			}
+		}
+		if len(s.loginAttempts) >= 4096 && len(s.loginAttempts[ip]) == 0 {
+			return false
+		}
+	}
 	past := s.loginAttempts[ip]
 	ok := past[:0]
 	for _, t := range past {
@@ -235,7 +279,7 @@ func (s *Server) login(w http.ResponseWriter, r *http.Request) {
 		respond(w, 403, map[string]string{"error": "origin rejected"})
 		return
 	}
-	ip, _, _ := strings.Cut(r.RemoteAddr, ":")
+	ip := clientIP(r.RemoteAddr)
 	if !s.allowLogin(ip) {
 		respond(w, 429, map[string]string{"error": "too many login attempts"})
 		return

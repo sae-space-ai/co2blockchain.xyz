@@ -72,8 +72,12 @@ func (c Client) Connect(ctx context.Context) (*Conn, error) {
 	if sslmode != "disable" && sslmode != "require" && sslmode != "verify-full" {
 		return nil, errors.New("unsupported sslmode")
 	}
-	if sslmode == "disable" && host != "localhost" && host != "127.0.0.1" && host != "::1" {
+	isLoopback := host == "localhost" || host == "127.0.0.1" || host == "::1"
+	if sslmode == "disable" && !isLoopback {
 		return nil, errors.New("unencrypted postgres forbidden outside localhost")
+	}
+	if sslmode == "require" && !isLoopback {
+		return nil, errors.New("remote postgres requires sslmode=verify-full (TLS hostname validation)")
 	}
 	nc, e := (&net.Dialer{Timeout: 6 * time.Second}).DialContext(ctx, "tcp", net.JoinHostPort(host, port))
 	if e != nil {
@@ -101,7 +105,7 @@ func (c Client) Connect(ctx context.Context) (*Conn, error) {
 			nc.Close()
 			return nil, errors.New("postgres rejected TLS")
 		}
-		t := tls.Client(nc, &tls.Config{ServerName: host, MinVersion: tls.VersionTLS12, InsecureSkipVerify: sslmode == "require"})
+		t := tls.Client(nc, &tls.Config{ServerName: host, MinVersion: tls.VersionTLS12})
 		if e = t.HandshakeContext(ctx); e != nil {
 			nc.Close()
 			return nil, e

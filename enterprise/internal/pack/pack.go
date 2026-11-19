@@ -9,6 +9,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"os"
 	"path"
 	"strings"
 
@@ -38,6 +39,8 @@ type Manifest struct {
 }
 
 const Disclaimer = "Self-contained hash chain; neither certified emissions nor proof of independent verification, source authenticity, or trusted timestamp."
+const MaxEvidenceFiles = 20
+const MaxArchiveBytes = 64 * 1024 * 1024
 
 func validate(m Manifest) error {
 	if m.Version != "co2-enterprise-archive-v1" || m.ClaimID == "" || m.OrgID == "" || m.ExternalAnchor || m.Disclaimer == "" {
@@ -45,6 +48,9 @@ func validate(m Manifest) error {
 	}
 	if len(m.Events) == 0 {
 		return errors.New("missing event chain")
+	}
+	if len(m.Evidence) > MaxEvidenceFiles {
+		return errors.New("too many documents in one package")
 	}
 	if e := ledger.Verify(m.Events); e != nil {
 		return e
@@ -55,11 +61,13 @@ func validate(m Manifest) error {
 		}
 	}
 	ids := map[string]bool{}
+	evidenceIDs := map[string]bool{}
 	for _, v := range m.Evidence {
-		if v.Size < 1 || v.Size > 3*1024*1024 || len(v.SHA256) != 64 || v.Path != "documents/"+v.ID+".bin" || !safePath(v.Path) || ids[v.Path] {
+		if v.Size < 1 || v.Size > 3*1024*1024 || len(v.SHA256) != 64 || v.Path != "documents/"+v.ID+".bin" || !safePath(v.Path) || ids[v.Path] || evidenceIDs[v.ID] {
 			return errors.New("invalid evidence descriptor")
 		}
 		ids[v.Path] = true
+		evidenceIDs[v.ID] = true
 	}
 	return VerifyRelations(m)
 }
@@ -68,16 +76,24 @@ func safePath(v string) bool {
 }
 func VerifyArchive(content []byte) (Manifest, error) {
 	var m Manifest
-	if len(content) > 60*1024*1024 {
+	if len(content) > MaxArchiveBytes {
 		return m, errors.New("archive exceeds maximum")
 	}
 	z, e := zip.NewReader(bytes.NewReader(content), int64(len(content)))
 	if e != nil {
 		return m, e
 	}
+	if len(z.File) > MaxEvidenceFiles+1 {
+		return m, errors.New("ZIP contains too many entries")
+	}
 	found := map[string]*zip.File{}
+	var totalUncompressed uint64
 	for _, f := range z.File {
-		if !safePath(f.Name) || f.FileInfo().IsDir() || f.UncompressedSize64 > 4*1024*1024 || found[f.Name] != nil {
+		if f.UncompressedSize64 > MaxArchiveBytes || totalUncompressed > MaxArchiveBytes-f.UncompressedSize64 {
+			return m, errors.New("ZIP exceeds uncompressed size ceiling")
+		}
+		totalUncompressed += f.UncompressedSize64
+		if !safePath(f.Name) || f.FileInfo().IsDir() || f.Mode()&os.ModeSymlink != 0 || f.UncompressedSize64 > 4*1024*1024 || found[f.Name] != nil {
 			return m, errors.New("unsafe, duplicate, or oversize ZIP entry")
 		}
 		found[f.Name] = f
@@ -181,6 +197,9 @@ func VerifyRelations(m Manifest) error {
 	for _, a := range m.Activities {
 		if a["id"] == "" {
 			return errors.New("activity ID missing")
+		}
+		if _, exists := activities[a["id"]]; exists {
+			return errors.New("duplicate activity ID")
 		}
 		b, e := json.Marshal(a)
 		if e != nil {

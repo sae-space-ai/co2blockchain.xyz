@@ -1,0 +1,15 @@
+SUMMARY 43/43 passed; 0 failed
+?   	example.com/co2-evidence-ledger-stage/internal/ledgercheck	[no test files]
+ok  	example.com/co2-evidence-ledger-stage/cmd/package-rc6	0.010s
+ok  	example.com/co2-evidence-ledger-stage/cmd/verify-rc6	0.014s
+{
+  "ok": true,
+  "version": "co2-evidence-rc6",
+  "events": 7,
+  "records": 7,
+  "head": "37c5e935706752734b70a0d279aed75102b9daa861b0444bf1cb5ab6d51e13e8",
+  "externalAnchor": false,
+  "note": "Integridad autocontenida de metadatos exclusivamente; no acredita origen, fecha, validez, documentos ni blockchain."
+}
+CONSISTENTE: libro y 1 documento(s) coinciden con metadatos locales; no supone certificación externa.
+OK: suite local aprobada, prueba adversaria rechazada. Producción NO AUTORIZADA.

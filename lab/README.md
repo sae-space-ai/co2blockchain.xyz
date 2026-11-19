@@ -20,7 +20,17 @@ Requisitos de desarrollo: Node.js 22 o superior y Go 1.23 o superior. Sin depend
 node tests/test_rc6.cjs
 go test ./...
 go run ./cmd/verify-rc6 -json tests/synthetic_rc6.json
+go run ./cmd/package-rc6 -verify tests/expediente_sintetico_RC6.zip
 ```
+
+Para empaquetar un expediente que **incluya los bytes reales** de evidencias, colocar los archivos originales referenciados por sus nombres en una carpeta local `originales/` y ejecutar en PowerShell:
+
+```powershell
+./Pack_RC6_Windows.exe -ledger CO2Blockchain_EvidenceLab_RC6.json -documents ./originales -out expediente_RC6.zip
+./Pack_RC6_Windows.exe -verify expediente_RC6.zip
+```
+
+**Condiciones:** cada documento debe conservar exactamente nombre, tamaño y SHA-256 con los que se registró. Formatos admitidos: PDF/PNG/JPG/JPEG/CSV/TXT, 3 MiB por archivo. No se sobrescriben paquetes existentes. El verificador de ZIP detecta sustituciones, ausencias y rutas manipuladas; no demuestra validez externa de los documentos.
 
 Se incluyen dos fixtures *TEST* claramente ficticios: uno consistente y otro deliberadamente manipulado. Comprobar el negativo:
 

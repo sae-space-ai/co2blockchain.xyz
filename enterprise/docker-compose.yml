@@ -1,0 +1,21 @@
+# Optional disposable local PostgreSQL 17 for STAGE; never point at production.
+# Requires CO2_STAGE_DB_PASSWORD set in environment; do not commit credentials.
+services:
+  postgres_stage:
+    image: postgres:17-alpine
+    restart: 'no'
+    environment:
+      POSTGRES_DB: co2_stage
+      POSTGRES_USER: co2_stage_user
+      POSTGRES_PASSWORD: ${CO2_STAGE_DB_PASSWORD:?Set a strong random stage-only password}
+    ports:
+      - '127.0.0.1:55432:5432'
+    volumes:
+      - co2_stage_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U co2_stage_user -d co2_stage']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+volumes:
+  co2_stage_postgres:

@@ -1,0 +1,3 @@
+# CO2 Evidence Ledger — instructions for engineering agents
+
+Read `docs/PRODUCT_CONSTITUTION.md` and `docs/RELEASE_GATES.md` before writing code. Work only in `feat/co2-evidence-ledger-enterprise-rc7-stage` until formal acceptance. Do not merge or deploy. Do not manipulate or overwrite existing RC6 lab, GitHub main, Vercel or Cloudflare sites. Do not introduce commerce, tokens or carbon-credit issuance. Never claim certified emissions. Distinguish process health from actual database readiness. Never substitute simulation for a successful database write. Preserve data and roles between releases. Run `scripts/check.sh` and genuine PostgreSQL integration E2E before any promotion. Use no customer data in fixtures.

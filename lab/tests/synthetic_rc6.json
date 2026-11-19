@@ -1,0 +1,164 @@
+{
+  "version": "co2-evidence-rc6",
+  "projects": [
+    {
+      "id": "00000000-0000-4000-8000-000000000001",
+      "name": "Piloto TEST",
+      "org": "Organización ficticia",
+      "intervention": "Caso sintético",
+      "created": "2026-11-19T04:00:00.000Z"
+    }
+  ],
+  "factors": [
+    {
+      "id": "00000000-0000-4000-8000-000000000002",
+      "name": "Factor no oficial TEST",
+      "value": 2.5,
+      "unit": "litro",
+      "uncertainty": 0,
+      "source": "Hipótesis sintética",
+      "year": 2026,
+      "scope": "1"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000003",
+      "name": "Factor electricidad TEST",
+      "value": 0.2,
+      "unit": "kWh",
+      "uncertainty": 0,
+      "source": "Factor sintético",
+      "year": 2026,
+      "scope": "2"
+    }
+  ],
+  "activities": [
+    {
+      "id": "00000000-0000-4000-8000-000000000004",
+      "projectId": "00000000-0000-4000-8000-000000000001",
+      "factorId": "00000000-0000-4000-8000-000000000002",
+      "period": "baseline",
+      "date": "2026-01-01",
+      "quantity": 1000,
+      "unit": "litro",
+      "uncertainty": 0,
+      "provenance": "Estimación",
+      "reference": "Ejemplo sintético"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000005",
+      "projectId": "00000000-0000-4000-8000-000000000001",
+      "factorId": "00000000-0000-4000-8000-000000000003",
+      "period": "baseline",
+      "date": "2026-01-01",
+      "quantity": 500,
+      "unit": "kWh",
+      "uncertainty": 0,
+      "provenance": "Estimación",
+      "reference": "Ejemplo sintético"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "00000000-0000-4000-8000-000000000007",
+      "projectId": "00000000-0000-4000-8000-000000000001",
+      "factorId": "00000000-0000-4000-8000-000000000003",
+      "baseline": 1000,
+      "intervention": 500,
+      "uncertainty": 0,
+      "assumption": "Caso contrafactual sintético",
+      "created": "2026-11-19T04:00:00.000Z"
+    }
+  ],
+  "evidences": [
+    {
+      "id": "00000000-0000-4000-8000-000000000006",
+      "projectId": "00000000-0000-4000-8000-000000000001",
+      "filename": "factura-SINTETICA.txt",
+      "kind": "Factura",
+      "description": "NO REAL",
+      "hash": "1be64e81b68a3e0c9411ea238e4bd03852529f4486790768bb8bb62b662c1da5",
+      "size": 47,
+      "created": "2026-11-19T04:00:00.000Z"
+    }
+  ],
+  "events": [
+    {
+      "id": "00000000-0000-4000-8000-000000000030",
+      "ts": "2026-11-19T05:00:00.000Z",
+      "action": "create",
+      "entity": "projects",
+      "recordId": "00000000-0000-4000-8000-000000000001",
+      "prev": "GENESIS",
+      "recordHash": "e6e99fea6d2a88f0b7048d19ee256a4a2d2cdb530fd61e8fe7a9820eb2781895",
+      "recordSnapshot": "{\"id\":\"00000000-0000-4000-8000-000000000001\",\"name\":\"Piloto TEST\",\"org\":\"Organización ficticia\",\"intervention\":\"Caso sintético\",\"created\":\"2026-11-19T04:00:00.000Z\"}",
+      "hash": "a5d600e4c46bbf3b7dec51ff122ca454375a8e70577a23618c3038324298bc96"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000031",
+      "ts": "2026-11-19T05:00:00.000Z",
+      "action": "create",
+      "entity": "factors",
+      "recordId": "00000000-0000-4000-8000-000000000002",
+      "prev": "a5d600e4c46bbf3b7dec51ff122ca454375a8e70577a23618c3038324298bc96",
+      "recordHash": "94cd17b1c8f147480f83f94012e54f2d901d0c8552ef1b07ae4437fd2b471f59",
+      "recordSnapshot": "{\"id\":\"00000000-0000-4000-8000-000000000002\",\"name\":\"Factor no oficial TEST\",\"value\":2.5,\"unit\":\"litro\",\"uncertainty\":0,\"source\":\"Hipótesis sintética\",\"year\":2026,\"scope\":\"1\"}",
+      "hash": "c9f4f2531e1b80d84fa22443c6ca22916098d0dd912e3333dcca0c1c119ebbdf"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000032",
+      "ts": "2026-11-19T05:00:00.000Z",
+      "action": "create",
+      "entity": "factors",
+      "recordId": "00000000-0000-4000-8000-000000000003",
+      "prev": "c9f4f2531e1b80d84fa22443c6ca22916098d0dd912e3333dcca0c1c119ebbdf",
+      "recordHash": "8f946fe85f427d9fe2c6c7099dbfd2c1be37bbfd99c5c0479ecaa1ffe4f65ca6",
+      "recordSnapshot": "{\"id\":\"00000000-0000-4000-8000-000000000003\",\"name\":\"Factor electricidad TEST\",\"value\":0.2,\"unit\":\"kWh\",\"uncertainty\":0,\"source\":\"Factor sintético\",\"year\":2026,\"scope\":\"2\"}",
+      "hash": "6f95a3f7d98419cfa1b81ef8ff169fcef7f05cd6bd7dae30041ffdf5317b624e"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000033",
+      "ts": "2026-11-19T05:00:00.000Z",
+      "action": "create",
+      "entity": "activities",
+      "recordId": "00000000-0000-4000-8000-000000000004",
+      "prev": "6f95a3f7d98419cfa1b81ef8ff169fcef7f05cd6bd7dae30041ffdf5317b624e",
+      "recordHash": "177ba614ac932ebffd7aa95268486458eb85694def3db9665df55f76947ae8ba",
+      "recordSnapshot": "{\"id\":\"00000000-0000-4000-8000-000000000004\",\"projectId\":\"00000000-0000-4000-8000-000000000001\",\"factorId\":\"00000000-0000-4000-8000-000000000002\",\"period\":\"baseline\",\"date\":\"2026-01-01\",\"quantity\":1000,\"unit\":\"litro\",\"uncertainty\":0,\"provenance\":\"Estimación\",\"reference\":\"Ejemplo sintético\"}",
+      "hash": "497e3be7353d6cedc3a1ade002a9e5ac27d480a090885ded342119b06c2083a7"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000034",
+      "ts": "2026-11-19T05:00:00.000Z",
+      "action": "create",
+      "entity": "activities",
+      "recordId": "00000000-0000-4000-8000-000000000005",
+      "prev": "497e3be7353d6cedc3a1ade002a9e5ac27d480a090885ded342119b06c2083a7",
+      "recordHash": "34b101737bc1085776350b4c9d9e2d7e44d036fa53f84b02f75a66d644fb85bc",
+      "recordSnapshot": "{\"id\":\"00000000-0000-4000-8000-000000000005\",\"projectId\":\"00000000-0000-4000-8000-000000000001\",\"factorId\":\"00000000-0000-4000-8000-000000000003\",\"period\":\"baseline\",\"date\":\"2026-01-01\",\"quantity\":500,\"unit\":\"kWh\",\"uncertainty\":0,\"provenance\":\"Estimación\",\"reference\":\"Ejemplo sintético\"}",
+      "hash": "b7157dfff31b8faa40c2e481eb68dd89568abfc228c947859fc93a769a54a2f1"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000035",
+      "ts": "2026-11-19T05:00:00.000Z",
+      "action": "create",
+      "entity": "scenarios",
+      "recordId": "00000000-0000-4000-8000-000000000007",
+      "prev": "b7157dfff31b8faa40c2e481eb68dd89568abfc228c947859fc93a769a54a2f1",
+      "recordHash": "e48f37d6faeebcb97f5a745fd5b6ea7989281564172064361e07cd961dbcb00d",
+      "recordSnapshot": "{\"id\":\"00000000-0000-4000-8000-000000000007\",\"projectId\":\"00000000-0000-4000-8000-000000000001\",\"factorId\":\"00000000-0000-4000-8000-000000000003\",\"baseline\":1000,\"intervention\":500,\"uncertainty\":0,\"assumption\":\"Caso contrafactual sintético\",\"created\":\"2026-11-19T04:00:00.000Z\"}",
+      "hash": "02313beae881341695a38b2efd509e449f696fd95310f1722735c70e7df1262e"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000036",
+      "ts": "2026-11-19T05:00:00.000Z",
+      "action": "create",
+      "entity": "evidences",
+      "recordId": "00000000-0000-4000-8000-000000000006",
+      "prev": "02313beae881341695a38b2efd509e449f696fd95310f1722735c70e7df1262e",
+      "recordHash": "f1ed81f8a2838c0f0f5ae6e7546ca4db39dc8eff4f065bafaa3e6a692c56ca2f",
+      "recordSnapshot": "{\"id\":\"00000000-0000-4000-8000-000000000006\",\"projectId\":\"00000000-0000-4000-8000-000000000001\",\"filename\":\"factura-SINTETICA.txt\",\"kind\":\"Factura\",\"description\":\"NO REAL\",\"hash\":\"1be64e81b68a3e0c9411ea238e4bd03852529f4486790768bb8bb62b662c1da5\",\"size\":47,\"created\":\"2026-11-19T04:00:00.000Z\"}",
+      "hash": "37c5e935706752734b70a0d279aed75102b9daa861b0444bf1cb5ab6d51e13e8"
+    }
+  ],
+  "migration": null
+}

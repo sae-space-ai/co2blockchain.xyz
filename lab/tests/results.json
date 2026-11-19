@@ -1,0 +1,223 @@
+{
+  "scope": "RC6 Node VM unit/integration harness, localStorage simulated; no browser E2E or remote services",
+  "timestamp": "2026-11-19T04:45:23.435Z",
+  "pass": 43,
+  "fail": 0,
+  "checks": [
+    {
+      "name": "Sintaxis JS RC6 válida",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Versión RC6 independiente de RC5",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Leyenda sin blockchain ni certificación",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Sin llamadas externas automáticas",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RC6 inicializa interfaz",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RC6 vacío es estructuralmente válido",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RC6 válido y cadena correcta",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "RC6 suma emisiones 2,6 t sintético",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Conversión energía 1 MWh a kWh",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Rechaza unidades incompatibles",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Escenario de 100 kg hipotéticos",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Rechaza fecha imposible 2026-02-30",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Acepta bisiesto 2024-02-29",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Rechaza actividad de unidad incompatible",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Rechaza IDs repetidos",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Rechaza factor negativo",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Rechaza factor infinito",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Rechaza factor sin fuente",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Rechaza SHA de evidencia inválido",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Rechaza modificación de un registro",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Rechaza modificación de la huella del registro",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Rechaza modificación de la huella del evento",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Rechaza alteración de registro histórico",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Rechaza reordenación de eventos",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Rechaza eliminación de evento intermedio",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Rechaza eliminación de un registro final",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Rechaza evento duplicado",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Rechaza proyecto huérfano",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Rechaza referencia de factor inexistente",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Rechaza falta de un evento de creación",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Rechaza versión RC5 tratada como RC6",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Migración RC5 etiqueta origen y no declara historia verificada",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Migración RC5 inválida se rechaza",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Comprobador de afirmaciones evita certificación",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Exportación conserva JSON de cadena local",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Mecanismo CSV anti-formulas sigue presente",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Importación manipulada NO modifica almacenamiento",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Importación válida persiste datos",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Verificación local posterior a importación",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Formulario real de alta persiste nueva entidad",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Formulario completo limpia campos tras alta",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Formulario añade evento SHA-256 verificable",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Persistencia JSON soporta recarga lógica",
+      "passed": true,
+      "detail": ""
+    }
+  ]
+}

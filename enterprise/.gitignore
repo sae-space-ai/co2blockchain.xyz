@@ -1,0 +1,13 @@
+.env
+.env.*
+!.env.example
+*.exe
+*.test
+server
+verify-package
+*.log
+*.sqlite
+*.db
+**/node_modules/
+**/.DS_Store
+**/tests/*.zip
